@@ -4,7 +4,7 @@ from pyspark.sql.functions import col, avg,round, sum
 spark = SparkSession.builder.appName("GroupFriends").getOrCreate()
 
 friends = spark.read.option("header", "true").option("inferSchema", "true")\
-    .csv("fakefriends-header.csv")
+    .csv("source-data/fakefriends-header.csv")
 
 friends.printSchema()
 

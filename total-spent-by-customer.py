@@ -7,7 +7,7 @@ def extractCustomerPricePairs(line):
     fields = line.split(',')
     return (int(fields[0]), float(fields[2]))
 
-input = sc.textFile("file:///sparkcourse/customer-orders.csv")
+input = sc.textFile("file:///D:/ws/git/pySpark/source-data/customer-orders.csv")
 mappedInput = input.map(extractCustomerPricePairs)
 totalByCustomer = mappedInput.reduceByKey(lambda x, y: x + y)
 
