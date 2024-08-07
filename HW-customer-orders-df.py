@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession, functions, types
-from pyspark.sql.functions import col, sum, round
+from pyspark.sql.functions import col, sum, round, count
 from pyspark.sql.types import *
 
 
@@ -12,10 +12,9 @@ schema = StructType([
 ])
 
 customerOrders = spark.read.schema(schema).csv("file:///d:/ws/git/pySpark/source-data/customer-orders.csv")
-customerOrders.printSchema()
 
 groupByCustomer = customerOrders.select("customerID", "amountSpent").groupBy("customerID")
 
-groupByCustomer.agg(round(sum("amountSpent"), 2).alias("total_spent")).orderBy("total_spent").show()
-
+totalSpent = groupByCustomer.agg(round(sum("amountSpent"), 2).alias("total_spent")).orderBy("total_spent")
+totalSpent.show(totalSpent.count())
 spark.stop()
